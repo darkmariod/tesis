@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header bg-dark text-white">
+      Reporte 
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        {{ customer_record.codigo_institucion_externa }}<br/>
+        {{ customer_record.codigo_senecyt }}<br/>
+        {{ customer_record.codigo_toma_fisica }}<br/>
+        {{ customer_record.codigo_anterior }}<br/>
+        {{ customer_record.bien }}<br/>
+        {{ customer_record.clase_bien }}<br/>
+        {{ customer_record.serie }}<br/>
+        {{ customer_record.modelo }}<br/>
+        {{ customer_record.color }}<br/>
+        {{ customer_record.material }}<br/>
+        {{ customer_record.marca }}<br/>
+        {{ customer_record.estado }}<br/>
+        {{ customer_record.usuario_final }}<br/>
+        {{ customer_record.nro_cedula }}<br/>
+        {{ customer_record.edificio }}<br/>
+        {{ customer_record.custodio_administrativo }}<br/>
+        {{ customer_record.delegado_1 }}<br/>
+        {{ customer_record.delegado_2 }}<br/>
+        {{ customer_record.delegado_3 }}<br/>
+        {{ customer_record.tipo_novedad }}<br/>
+        {{ customer_record.observaciones }}<br/>
+        {{ customer_record.nro_acta_entrega_recepcion }}<br/>
+        {{ customer_record.nro_acta_donacion_factura }}<br/>
+        {{ customer_record.valor_monetario }}<br/>
+        {{ customer_record.created_at }}<br/>
+      </p>
+      <a href="{% url 'home' %}" class="btn btn-warning">Regresar</a>
+      <a href="{% url 'delete_record' customer_record.id %}" class="btn btn-danger">Eliminar</a>
+      <a href="{% url 'update_record' customer_record.id %}" class="btn btn-danger">Actualizar</a>
+
+    </div>
+  </div>
+  
+
+{% endblock  %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-bordered table-xxl">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Código Institutción Externa</th>
+        <th scope="col">Código Senecyt</th>
+        <th scope="col">Código Toma Física</th>
+        <th scope="col">Código Anterior</th>
+        <th scope="col">Bien</th>
+        <th scope="col">Clase Bien</th>
+        <th scope="col">Serie</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Color</th>
+        <th scope="col">Material</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Usuario Final</th>
+        <th scope="col">Nro Cédula</th>
+        <th scope="col">Ubicación</th>
+        <th scope="col">Edificio</th>
+        <th scope="col">Custodio Administrativo</th>
+        <th scope="col">Delegado 1</th>
+        <th scope="col">Delegado 2</th>
+        <th scope="col">Delegado 3</th>
+        <th scope="col">Tipo Novedad</th>
+        <th scope="col">Observaciones</th>
+        <th scope="col">Nro Acta Entrega Recepción</th>
+        <th scope="col">Nro Acta Donación Factura</th>
+        <th scope="col">Valor Monetario</th>
+        <th scope="col">Fecha Entrega Recepción</th>
+      </tr>
+    </thead>
+    <tbody>
+
+{% if records %}
+   {% for record in records %}
+    <tr>
+        
+        <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
+        <td>{{ record.codigo_institucion_externa }}</td>
+        <td>{{ record.codigo_senecyt }}</td>
+        <td>{{ record.codigo_toma_fisica }}</td>
+        <td>{{ record.codigo_anterior }}</td>
+        <td>{{ record.bien }}</td>
+        <td>{{ record.clase_bien }}</td>
+        <td>{{ record.serie }}</td>
+        <td>{{ record.modelo }}</td>
+        <td>{{ record.color }}</td>
+        <td>{{ record.material }}</td>
+        <td>{{ record.marca }}</td>
+        <td>{{ record.estado }}</td>
+        <td>{{ record.usuario_final }}</td>
+        <td>{{ record.nro_cedula }}</td>
+        <td>{{ record.ubicacion }}</td>
+        <td>{{ record.edificio }}</td>
+        <td>{{ record.custodio_administrativo }}</td>
+        <td>{{ record.delegado_1 }}</td>
+        <td>{{ record.delegado_2 }}</td>
+        <td>{{ record.delegado_3 }}</td>
+        <td>{{ record.tipo_novedad }}</td>
+        <td>{{ record.observaciones }}</td>
+        <td>{{ record.nro_acta_entrega_recepcion }}</td>
+        <td>{{ record.nro_acta_donacion_factura }}</td>
+        <td>{{ record.valor_monetario }}</td>
+        <td>{{ record.fecha_entrega_recepcion }}</td>
+    </tr>   
+   {% endfor %}
+
+{% endif %}
+      
+    </tbody>
+</table>
+</div>
+
+{% else %}
+
+<h1>Bienvenido</h1>
+<br/>    
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+    
+      <div class="mb-3">
+        <input type="text" class="form-control" name="username", placeholder="Username" required>
+        
+      </div><br/>
+      <div class="mb-3">
+        <input type="password" class="form-control" name="password", placeholder="Password" required>
+      </div>
+      <br/>
+      <button type="submit" class="btn btn-secondary">Inicio</button>
+    
+    </form>
+
+{% endif %}
+
+{% endblock %}
