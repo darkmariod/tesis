@@ -1,9 +1,11 @@
+import openpyxl
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, AddRecordForm
 from .models import Record
-
 
 def home(request):
 	records = Record.objects.all()
@@ -91,3 +93,75 @@ def update_record(request, pk):
 	else:
 		messages.success(request, "Se actualizo...")
 		return redirect('home')
+
+@login_required
+def generar_reporte_excel(request):
+    queryset = Record.objects.all()
+
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    
+	# Agregar encabezados de columna y datos de los registros
+    encabezados = [
+        'Codigo Institucion Externa',
+        'Codigo Senecyt',
+        'Codigo Toma Fisica',
+        'Codigo Anterior',
+        'Bien',
+        'Clase Bien',
+        'Serie',
+        'Modelo',
+        'Color',
+        'Material',
+        'Marca',
+        'Estado',
+        'Usuario Final',
+        'Nro. Cedula',
+        'Ubicacion',
+        'Edificio',
+        'Custodio Administrativo',
+        'Delegado 1',
+        'Delegado 2',
+        'Delegado 3',
+        'Tipo Novedad',
+        'Observaciones',
+        'Nro. Acta Entrega Recepcion',
+        'Nro. Acta Donacion Factura',
+        'Valor Monetario',
+        'Fecha Entrega Recepcion',
+        'Fecha Creación',
+    ]
+
+    for col_num, encabezado in enumerate(encabezados, 1):
+        col_letra = openpyxl.utils.get_column_letter(col_num)
+        celda = sheet[f'{col_letra}1']
+        celda.value = encabezado
+        celda.font = openpyxl.styles.Font(bold=True)
+
+    # Agregar datos de los registros
+    for row_num, registro in enumerate(queryset, 2):
+        sheet.cell(row=row_num, column=1, value=registro.codigo_institucion_externa)
+        sheet.cell(row=row_num, column=2, value=registro.codigo_senecyt)
+        sheet.cell(row=row_num, column=3, value=registro.codigo_toma_fisica)
+        sheet.cell(row=row_num, column=4, value=registro.codigo_anterior)
+        sheet.cell(row=row_num, column=5, value=registro.bien)
+        sheet.cell(row=row_num, column=6, value=registro.clase_bien)
+        sheet.cell(row=row_num, column=7, value=registro.serie)
+        sheet.cell(row=row_num, column=8, value=registro.modelo)
+        sheet.cell(row=row_num, column=9, value=registro.color)
+        sheet.cell(row=row_num, column=10, value=registro.material)
+        sheet.cell(row=row_num, column=11, value=registro.marca)
+        sheet.cell(row=row_num, column=12, value=registro.estado)
+        sheet.cell(row=row_num, column=13, value=registro.usuario_final)
+        sheet.cell(row=row_num, column=14, value=registro.nro_cedula)
+        sheet.cell(row=row_num, column=15, value=registro.ubicacion)
+        sheet.cell(row=row_num, column=16, value=registro.edificio)
+        sheet.cell(row=row_num, column=17, value=registro.custodio_administrativo)
+        sheet.cell(row=row_num, column=18, value=registro.delegado_1)
+        sheet.cell(row=row_num, column=19, value=registro.delegado_2)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=reporte.xlsx'
+    
+    workbook.save(response)
+    return response
