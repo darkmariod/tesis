@@ -17,10 +17,10 @@ def home(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
-			messages.success(request, "You Have Been Logged In!")
+			messages.success(request, "Ha iniciado sesión!")
 			return redirect('home')
 		else:
-			messages.success(request, "There Was An Error Logging In, Please Try Again...")
+			messages.success(request, "Se ha producido un error al iniciar sesión, inténtelo de nuevo....")
 			return redirect('home')
 	else:
 		return render(request, 'home.html', {'records':records})
@@ -74,7 +74,7 @@ def add_record(request):
 		if request.method == "POST":
 			if form.is_valid():
 				add_record = form.save()
-				messages.success(request, "Record Added...")
+				messages.success(request, "Registro añadido...")
 				return redirect('home')
 		return render(request, 'add_record.html', {'form':form})
 	else:
