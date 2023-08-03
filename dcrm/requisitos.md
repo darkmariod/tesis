@@ -34,3 +34,7 @@ nro_acta_entrega_recepcion
 nro_acta_donacion_factura
 valor_monetario
 fecha_entrega_recepcion
+
+## Cambios a realizar
+selccionar un nuevo docente mediante
+ingresar un nuevo docente
